@@ -1,0 +1,31 @@
+<div class="details-container" *ngIf="suggestion">
+  <div class="card">
+    <div class="card-header">
+      <h2>{{ suggestion.title }}</h2>
+      <span class="status" [ngClass]="suggestion.status.toLowerCase()">
+        {{ suggestion.status }}
+      </span>
+    </div>
+
+    <div class="card-body">
+      <div class="row">
+        <label>Description</label>
+        <p>{{ suggestion.description }}</p>
+      </div>
+
+      <div class="row">
+        <label>Category</label>
+        <span class="badge">{{ suggestion.category }}</span>
+      </div>
+
+      <div class="row">
+        <label>Date</label>
+        <span>{{ suggestion.date | date : "longDate" }}</span>
+      </div>
+
+      <div class="row likes">👍 {{ suggestion.nbLikes }} Likes</div>
+    </div>
+
+    <button class="btn-back" routerLink="/suggestions">Back to list</button>
+  </div>
+</div>

@@ -28,6 +28,7 @@
       <button class="like" (click)="likeSuggestion(s)">👍 Like</button>
       <button class="fav" (click)="addToFavorites(s)">⭐ Favoris</button>
     </div>
+    <button [routerLink]="['/suggestions', s.id]">Details</button>
   </div>
 </div>
 

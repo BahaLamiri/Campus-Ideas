@@ -1,0 +1,101 @@
+.details-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.card {
+  width: 600px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.card-header h2 {
+  margin: 0;
+}
+
+.status {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  color: white;
+}
+
+.status.pending {
+  background: orange;
+}
+.status.approved {
+  background: green;
+}
+.status.rejected {
+  background: crimson;
+}
+
+.card-body {
+  margin-top: 15px;
+}
+
+.row {
+  margin-bottom: 15px;
+}
+
+.row label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.badge {
+  background: #007bff;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.likes {
+  font-weight: bold;
+  color: #444;
+}
+
+.card-footer {
+  text-align: right;
+  margin-top: 20px;
+}
+
+.btn-back {
+  border: none;
+  background: #444;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-back:hover {
+  background: black;
+}
+
+.btn-back {
+  margin-top: 20px;
+  padding: 8px 16px;
+  border: none;
+  background: #374151;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-back:hover {
+  background: #111827;
+}

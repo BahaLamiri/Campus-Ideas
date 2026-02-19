@@ -9,8 +9,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { FooterComponent } from './core/footer/footer.component';
 import { HeaderComponent } from './core/header/header.component';
-import { ListesuggestionComponent } from './core/listesuggestion/listesuggestion.component';
+import { ListesuggestionComponent } from './features/suggestions/listesuggestion/listesuggestion.component';
 import { AppComponent } from './app.component';
+import { HomeComponent } from './core/home/home.component';
+import { NotfoundComponent } from './core/notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,8 @@ import { AppComponent } from './app.component';
     HeaderComponent,
     ListesuggestionComponent,
     AppComponent,
+    HomeComponent,
+    NotfoundComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [provideClientHydration()],

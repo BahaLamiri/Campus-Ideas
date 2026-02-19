@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Suggestion } from '../models/suggestion';
+import { Suggestion } from '../../../core/models/suggestion';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 
