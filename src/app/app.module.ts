@@ -13,7 +13,7 @@ import { ListesuggestionComponent } from './features/suggestions/listesuggestion
 import { AppComponent } from './app.component';
 import { HomeComponent } from './core/home/home.component';
 import { NotfoundComponent } from './core/notfound/notfound.component';
-
+import { provideHttpClient, withFetch } from '@angular/common/http';
 @NgModule({
   declarations: [
     FooterComponent,
@@ -24,7 +24,7 @@ import { NotfoundComponent } from './core/notfound/notfound.component';
     NotfoundComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
-  providers: [provideClientHydration()],
+  providers: [provideClientHydration(), provideHttpClient(withFetch())],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

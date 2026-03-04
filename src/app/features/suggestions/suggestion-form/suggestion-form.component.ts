@@ -1,16 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { Router, ActivatedRoute } from '@angular/router';
+import { SuggestionService } from '../../../core/Service/suggestion.service';
 import { Suggestion } from '../../../core/models/suggestion';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-suggestion-form',
   templateUrl: './suggestion-form.component.html',
-  styleUrl: './suggestion-form.component.css',
+  styleUrls: ['./suggestion-form.component.css'],
 })
 export class SuggestionFormComponent implements OnInit {
   suggestionForm!: FormGroup;
+  id!: number;
+  isEditMode: boolean = false;
+
   categories: string[] = [
     'Infrastructure et bâtiments',
     'Technologie et services numériques',
@@ -24,49 +27,15 @@ export class SuggestionFormComponent implements OnInit {
     'Autre',
   ];
 
-  currentDate: string = new Date().toISOString().split('T')[0];
-
-  suggestions: Suggestion[] = [
-    {
-      id: 1,
-      title: 'Organiser une journée team building',
-      description: 'Suggestion pour organiser une journée de team building.',
-      category: 'Événements',
-      date: new Date('2025-01-20'),
-      status: 'acceptee',
-      nbLikes: 10,
-    },
-    {
-      id: 2,
-      title: 'Améliorer le système de réservation',
-      description: 'Améliorer la gestion des réservations en ligne.',
-      category: 'Technologie',
-      date: new Date('2025-01-15'),
-      status: 'refusee',
-      nbLikes: 0,
-    },
-    {
-      id: 3,
-      title: 'Créer un système de récompenses',
-      description: 'Programme de récompenses pour motiver les employés.',
-      category: 'Ressources Humaines',
-      date: new Date('2025-01-25'),
-      status: 'refusee',
-      nbLikes: 0,
-    },
-    {
-      id: 4,
-      title: 'Moderniser l’interface utilisateur',
-      description: 'Refonte complète de l’interface utilisateur.',
-      category: 'Technologie',
-      date: new Date('2025-01-30'),
-      status: 'en_attente',
-      nbLikes: 0,
-    },
-  ];
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private service: SuggestionService,
+    private actR: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
+    // Création du formulaire
     this.suggestionForm = this.fb.group({
       title: [
         '',
@@ -78,9 +47,28 @@ export class SuggestionFormComponent implements OnInit {
       ],
       description: ['', [Validators.required, Validators.minLength(30)]],
       category: ['', Validators.required],
+      status: ['en attente'], // temporaire pour update readonly
+      date: [new Date()], // temporaire pour affichage
     });
+
+    // 🔥 Vérification du mode update
+    this.id = this.actR.snapshot.params['id'];
+    if (this.id) {
+      this.isEditMode = true;
+
+      // Récupération des données depuis le backend
+      this.service.getSuggestionById(this.id).subscribe((res: any) => {
+        if (res.success && res.suggestion) {
+          this.suggestionForm.patchValue({
+            ...res.suggestion,
+            date: new Date(res.suggestion.date),
+          });
+        }
+      });
+    }
   }
 
+  // Getters pour simplifier le template
   get title() {
     return this.suggestionForm.get('title')!;
   }
@@ -94,18 +82,24 @@ export class SuggestionFormComponent implements OnInit {
   onSubmit() {
     if (this.suggestionForm.invalid) return;
 
-    const newSuggestion: Suggestion = {
-      id: this.suggestions.length + 1,
-      title: this.title.value,
-      description: this.description.value,
-      category: this.category.value,
-      date: new Date(),
-      status: 'en attente',
-      nbLikes: 0,
+    const suggestion: Suggestion = {
+      id: this.id || 0,
+      ...this.suggestionForm.value,
+      nbLikes: this.isEditMode ? this.suggestionForm.value.nbLikes || 0 : 0,
+      date: this.isEditMode ? this.suggestionForm.value.date : new Date(),
+      status: this.isEditMode ? this.suggestionForm.value.status : 'en attente',
     };
 
-    this.suggestions.push(newSuggestion);
-
-    this.router.navigate(['/suggestions']);
+    if (!this.isEditMode) {
+      // add new suggestion
+      this.service.addSuggestion(suggestion).subscribe(() => {
+        this.router.navigate(['/suggestions']);
+      });
+    } else {
+      // update suggestion
+      this.service.updateSuggestion(this.id, suggestion).subscribe(() => {
+        this.router.navigate(['/suggestions']);
+      });
+    }
   }
 }

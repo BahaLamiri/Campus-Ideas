@@ -33,6 +33,7 @@
       <button class="fav" (click)="addToFavorites(s)">Favoris</button>
     </div>
     <button [routerLink]="['/suggestions', s.id]">Details</button>
+    <button (click)="deleteSuggestion(s.id)">Supprimer la suggestion</button>
   </div>
 </div>
 

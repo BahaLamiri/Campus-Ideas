@@ -23,9 +23,17 @@
         <span>{{ suggestion.date | date : "longDate" }}</span>
       </div>
 
-      <div class="row likes">👍 {{ suggestion.nbLikes }} Likes</div>
+      <div class="row likes" (click)="like(suggestion)">
+        👍 {{ suggestion.nbLikes }} Likes
+      </div>
     </div>
 
     <button class="btn-back" routerLink="/suggestions">Back to list</button>
+    <button
+      class="update-btn"
+      [routerLink]="['/suggestions/edit', suggestion.id]"
+    >
+      Update
+    </button>
   </div>
 </div>
